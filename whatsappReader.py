@@ -4,8 +4,17 @@ import operator
 from prettytable import PrettyTable
 import matplotlib.pyplot as plt
 
+
+if (len(sys.argv)) != 2:
+    print("please add the file required as a command line argument")
+    exit()
+
 #take input from the command line
-fileName = str(sys.argv[1])
+try:
+    fileName = str(sys.argv[1])
+
+except:
+    print("please ensure you add the correct file")
 
 #object which contains the message the metadata
 class Message():
@@ -22,16 +31,19 @@ class Message():
 allMessages = []
 
 #loop through each message in the file
-with codecs.open(fileName, encoding='utf-8') as chat:
-    for message in chat:
-        dateTime = message[1:21].split(",")
-        message = message[23:]
-        index = message.find(':')
-        name = message[:index]
-        text = message[index + 2:]
-        newMessage = Message(text, name, dateTime)
-        allMessages.append(newMessage)
-
+try:
+    with codecs.open(fileName, encoding='utf-8') as chat:
+        for message in chat:
+            dateTime = message[1:21].split(",")
+            message = message[23:]
+            index = message.find(':')
+            name = message[:index]
+            text = message[index + 2:]
+            newMessage = Message(text, name, dateTime)
+            allMessages.append(newMessage)
+except:
+    print("please ensure you add the correct file")
+    
 firstUser = allMessages[0].sender
 firstUserMessages = []
 firstUserWords = 0
